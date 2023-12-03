@@ -4,6 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.example</groupId>
     <artifactId>serialization</artifactId>
+    <packaging>jar</packaging>
     <version>0.0.1-SNAPSHOT</version>
     <name>demo</name>
     <description>demo</description>
@@ -35,6 +36,17 @@
             <artifactId>commons-collections</artifactId>
             <version>3.1</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-jasper</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.29</version>
+        </dependency>
+
     </dependencies>
     <dependencyManagement>
         <dependencies>
