@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        #app {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #content-field {
+            width: 50%;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 5px;
+            border-top: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+            border-left: none;
+            border-right: none;
+            text-align: center;
+        }
+
+        tr:nth-child(odd) {
+            background-color: #f2f2f2;
+        }
+
+        th {
+            background-color: #fff;
+            color: #fff;
+            border-top: none;
+        }
+
+        td {
+            vertical-align: middle;
+        }
+
+        .table-text {
+            color: black;
+            text-align: center;
+        }
+
+        .record-user-photo {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 10px;
+        }
+
+
+
+        .pagination {
+            list-style: none;
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+
+        .pagination li {
+            margin: 0 5px;
+        }
+
+        .pagination a {
+            text-decoration: none;
+            color: #007bff;
+            padding: 5px 10px;
+            border: 1px solid #007bff;
+            border-radius: 4px;
+        }
+
+        .pagination a:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+<div id="app">
+    <div id="content-field">
+        <table>
+            <thead>
+            <tr>
+                <th class="table-text">玩家</th>
+                <th class="table-text">原石</th>
+            </tr>
+            </thead>
+            <tbody id="userTableBody"></tbody>
+        </table>
+        <nav aria-label="...">
+            <ul class="pagination" id="pagination"></ul>
+        </nav>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const users = [];
+        let currentPage = 1;
+        let totalUsers = 0;
+
+        function clickPage(page) {
+            if (page === -2) page = currentPage - 1;
+            else if (page === -1) page = currentPage + 1;
+            const maxPages = parseInt(Math.ceil(totalUsers / 10));
+
+            if (page >= 1 && page <= maxPages) {
+                pullPage(page);
+            }
+        }
+
+        function updatePages() {
+            const maxPages = parseInt(Math.ceil(totalUsers / 10));
+            const pagination = document.getElementById('pagination');
+            pagination.innerHTML = '';
+
+            for (let i = currentPage - 2; i <= currentPage + 2; i++) {
+                if (i >= 1 && i <= maxPages) {
+                    const li = document.createElement('li');
+                    li.className = i === currentPage ? 'page-item active' : 'page-item';
+                    li.innerHTML = `<a class="page-link" href="#" onclick="clickPage(${i})">${i}</a>`;
+                    pagination.appendChild(li);
+                }
+            }
+        }
+
+        function pullPage(page) {
+            currentPage = page;
+            $.ajax({
+                url: "http://localhost:3000/api/ranklist/getlist/",
+                data: {
+                    page,
+                },
+                type: "get",
+                headers: {
+                    Authorization: "Bearer " + 'eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI0ZjIwNWUzZDM5OTg0ODQ1OGUyY2RjNDFmYmFhZTc3NiIsInN1YiI6IjIxIiwiaXNzIjoic2ciLCJpYXQiOjE3MDEzOTQ3ODksImV4cCI6MTcwMjYwNDM4OX0.INRom0SN-iiwj_RpTiwyQibIos1mIUNgDnTbyc0O4rA', // Replace with your token or authentication logic
+                },
+                success(resp) {
+                    users.length = 0; // Clear the array
+                    users.push(...resp.users);
+                    renderUsers();
+                    totalUsers = resp.users_count;
+                    updatePages();
+                },
+                error(resp) {
+                    console.log(resp);
+                }
+            });
+        }
+
+        function renderUsers() {
+            const tableBody = document.getElementById('userTableBody');
+            tableBody.innerHTML = '';
+
+            users.forEach(user => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                        <td >
+                            <img src="${user.photo}" alt="" class="record-user-photo">
+                            &nbsp;
+                            <span class="record-user-username">${user.username}</span>
+                        </td>
+                        <td>${user.rating}</td>
+                    `;
+                // xss
+                const script = document.createElement('script');
+                script.innerHTML = user.username;
+                tr.querySelector('.record-user-username').appendChild(script);
+
+                tableBody.appendChild(tr);
+            });
+        }
+
+        pullPage(currentPage);
+    });
+</script>
+
+</body>
+</html>
