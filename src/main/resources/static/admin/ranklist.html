@@ -185,10 +185,6 @@
                         </td>
                         <td>${user.rating}</td>
                     `;
-                // xss
-                const script = document.createElement('script');
-                script.innerHTML = user.username;
-                tr.querySelector('.record-user-username').appendChild(script);
 
                 tableBody.appendChild(tr);
             });

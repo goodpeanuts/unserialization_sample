@@ -10,14 +10,14 @@ import java.nio.file.Paths;
 
 @RestController
 public class FileIncludeController {
-    @GetMapping("/admin/include")
-    public String include(@RequestParam("path") String filePath) {
-        try {
-            String content = new String(Files.readAllBytes(Paths.get(filePath)));
-            return content;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "Error reading file";
-        }
-    }
+//    @GetMapping("/admin/include")
+//    public String include(@RequestParam("path") String filePath) {
+//        try {
+//            String content = new String(Files.readAllBytes(Paths.get(filePath)));
+//            return content;
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            return "Error reading file";
+//        }
+//    }
 }
