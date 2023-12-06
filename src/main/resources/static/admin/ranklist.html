@@ -150,13 +150,13 @@
         function pullPage(page) {
             currentPage = page;
             $.ajax({
-                url: "http://localhost:3000/api/ranklist/getlist/",
+                url: "http://192.168.13.143/api/ranklist/getlist/",
                 data: {
                     page,
                 },
                 type: "get",
                 headers: {
-                    Authorization: "Bearer " + 'eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI0ZjIwNWUzZDM5OTg0ODQ1OGUyY2RjNDFmYmFhZTc3NiIsInN1YiI6IjIxIiwiaXNzIjoic2ciLCJpYXQiOjE3MDEzOTQ3ODksImV4cCI6MTcwMjYwNDM4OX0.INRom0SN-iiwj_RpTiwyQibIos1mIUNgDnTbyc0O4rA', // Replace with your token or authentication logic
+                    Authorization: "Bearer " + 'eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI0MzRiYTczN2E0OGY0Nzk4OThlMTMwZjY3NWU2Y2EyMiIsInN1YiI6IjMiLCJpc3MiOiJzZyIsImlhdCI6MTcwMTg1MTAyOCwiZXhwIjoxNzAzMDYwNjI4fQ.HyVg9PWoBvvOiENxlvVRrU0diZvQo4dk3iNphSg_iuQ', // Replace with your token or authentication logic
                 },
                 success(resp) {
                     users.length = 0; // Clear the array

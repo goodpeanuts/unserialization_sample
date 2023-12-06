@@ -72,7 +72,7 @@
 </head>
 <body>
 <div class="container">
-    <form name="LOGIN_FORM" method="post" action="http://127.0.0.1:3000/api/user/account/reset/">
+    <form name="LOGIN_FORM" method="post" action="http://192.168.13.143/api/user/account/reset/">
         <div class="form-group">
             <label for="username">登录帐号:</label>
             <input type="text" id="username" name="username">
@@ -81,8 +81,8 @@
             <label for="oldPassword">密码:</label>
             <input type="password" id="oldPassword" name="oldPassword">
         </div>
-        <input type="hidden" id="password" name="password" value="pa">
-        <input type="hidden" id="confirmPassword" name="confirmPassword" value="pa">
+        <input type="hidden" id="password" name="password" value="mypass">
+        <input type="hidden" id="confirmPassword" name="confirmPassword" value="mypass">
         <span id="passwordError" class="error"></span>
         <div class="form-group">
             <button type="submit">登录</button>
